@@ -1,9 +1,16 @@
 // qui impostiamo il Redux Store
-import { configureStore } from '@reduxjs/toolkit'
-import mainReducer from '../reducers'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
+import cartReducer from '../reducers/cartReducer'
+import userReducer from '../reducers/userReducer'
+
+const combinedReducer = combineReducers({
+  cart: cartReducer, // assegno alla slice cart il reducer di riferimento
+  user: userReducer, // assegno alla slice user il reducer di riferimento
+})
 
 const store = configureStore({
-  reducer: mainReducer,
+  reducer: combinedReducer, // riassegno alla proprietà "reducer"
+  // la mia funzione "ricombinata"
 })
 
 export default store

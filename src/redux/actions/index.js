@@ -35,3 +35,31 @@ export const setUsernameAction = (value) => {
     payload: value,
   }
 }
+
+// la funzione "dispatch" di Redux in realtà può dispatchare ALTRO oltre
+// che semplici oggetti actions... può dispatchare anche FUNZIONI
+// queste funzioni sono il luogo in cui è appropriato gestire eventuali
+// operazioni asincrone prima di risvegliare il reducer
+
+// come vi comportereste se voleste avere un carrello di max 5 elementi?
+// un modo elegante ed integrato potrebbe essere creare un action creator "speciale"
+// un action creator "speciale" non ritorna una action, ma ritorna una function!
+
+export const addToCartUntil5 = (bookSelected) => {
+  // non ritorniamo un oggetto, ora ritorniamo una funzione!
+  return (dispatch, getState) => {
+    // qui dentro voi potete fare quello che volete...
+    // es. fetch, random, operazioni async, verifica stato redux etc. etc.
+    // se Redux si accorge che non dispatchate un oggetto ma una funzione,
+    // arricchirà quella funzione con 2 parametri: la funzione dispatch e la
+    // funzione getState
+    if (getState().cart.content.length < 5) {
+      dispatch({
+        type: ADD_TO_CART,
+        payload: bookSelected,
+      })
+    } else {
+      console.log('CARRELLO PIENO!')
+    }
+  }
+}
