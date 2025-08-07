@@ -4,6 +4,7 @@
 export const ADD_TO_CART = 'ADD_TO_CART'
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART'
 export const SET_USERNAME = 'SET_USERNAME'
+export const GET_BOOKS = 'GET_BOOKS'
 
 // spesso il file actions viene utilizzato per ospitare dei veri e propri
 // ACTION CREATORS
@@ -61,5 +62,35 @@ export const addToCartUntil5 = (bookSelected) => {
     } else {
       console.log('CARRELLO PIENO!')
     }
+  }
+}
+
+export const getBooksAction = () => {
+  return (
+    dispatch
+    // getState
+  ) => {
+    // qui dentro ora sono libero di fare la fetch per ottenere i libri disponibili
+    fetch('https://striveschool-api.herokuapp.com/food-books')
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('errore nel recupero libri per lo store')
+        }
+      })
+      .then((booksArray) => {
+        console.log(booksArray)
+        // ora ricevo i libri in console
+        // il prossimo passo è riempire la proprietà book.available di Redux!
+        // ora che l'operazione asincrona è finita, posso invocare il Reducer!
+        dispatch({
+          type: GET_BOOKS,
+          payload: booksArray,
+        })
+      })
+      .catch((err) => {
+        console.log('errore', err)
+      })
   }
 }
