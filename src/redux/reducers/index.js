@@ -2,7 +2,7 @@
 // un reducer è una FUNZIONE PURA: una funzione che a partire dallo stesso
 // input (parametri) restituisce SEMPRE lo stesso output
 
-import { ADD_TO_CART, REMOVE_FROM_CART } from '../actions'
+import { ADD_TO_CART, REMOVE_FROM_CART, SET_USERNAME } from '../actions'
 
 // il reducer riceverà da Redux 2 parametri ad ogni invocazione:
 // 1) lo stato attuale dell'applicazione
@@ -19,6 +19,9 @@ const initialState = {
     content: [],
     // qui dentro potrei anche aggiungerci altre informazioni da memorizzare
     // in Redux relative al carrello (quantità, errori, caricamenti)
+  },
+  user: {
+    name: '',
   },
 }
 
@@ -65,6 +68,15 @@ const mainReducer = (state = initialState, action) => {
           // content: state.cart.content.filter((_, i) => {
           //   return i !== action.payload
           // }),
+        },
+      }
+
+    case SET_USERNAME:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          name: action.payload,
         },
       }
 
